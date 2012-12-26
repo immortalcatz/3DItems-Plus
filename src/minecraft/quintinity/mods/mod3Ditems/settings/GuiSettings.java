@@ -1,4 +1,4 @@
-package quintinity.mods.mod3Ditems.client;
+package quintinity.mods.mod3Ditems.settings;
 import java.text.DecimalFormat;
 
 import org.lwjgl.opengl.GL11;
@@ -11,10 +11,13 @@ import quintinity.api.settings.SettingsAPI;
 import quintinity.mods.mod3Ditems.Mod3DItems;
 import quintinity.mods.mod3Ditems.Settings;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.src.*;
+import net.minecraft.util.StringTranslate;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.Side;
-import cpw.mods.fml.common.asm.SideOnly;
 import static quintinity.api.TextColor.*;
 
 public class GuiSettings extends GuiScreen
@@ -37,12 +40,12 @@ public class GuiSettings extends GuiScreen
         //23 height
         this.controlList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, st.translateKey("gui.done")));
         this.controlList.add(new OptionButton(1, this.width / 2 - 152, this.height / 6, "3D Items: " + booleanToString(Settings.getRenderIn3D())));
-        this.controlList.add(new OptionButton(2, this.width / 2 + 2, this.height / 6, "3D Frame Items: " + booleanToString(Settings.getRenderFrameIn3D())));
+        //this.controlList.add(new OptionButton(2, this.width / 2 + 2, this.height / 6, "3D Frame Items: " + booleanToString(Settings.getRenderFrameIn3D())));
         this.controlList.add(new OptionSlider(3, this.width / 2 - 152, this.height / 6 + 23, "Item Scale: " + Float.toString(Settings.getItemScale()).substring(0, 3), this, Settings.getItemScale()));
         this.controlList.add(new OptionSlider(4, this.width / 2 + 2, this.height / 6 + 23, "Block Scale: " + Float.toString(Settings.getBlockScale()).substring(0, 3), this, Settings.getBlockScale()));
         this.controlList.add(new OptionButton(5, this.width / 2 - 152, this.height / 6 + 46, "Item Bobbing: " + booleanToString(Settings.getItemBobbing())));
         this.controlList.add(rotation = new OptionButton(6, this.width / 2 + 2, this.height / 6 + 46, "Item Rotation: " + booleanToString(Settings.getItemRotation())));
-        this.controlList.add(new OptionButton(7, this.width / 2 - 152, this.height / 6 + 69, "Item Render Distance: " + YELLOW + trimFloat(Settings.getRenderDistance()) + "x"));
+        this.controlList.add(new OptionButton(7, this.width / 2 + 2, this.height / 6, "Item Render Distance: " + YELLOW + trimFloat(Settings.getRenderDistance()) + "x"));
         rotation.enabled = Settings.getRenderIn3D();
     }
 

@@ -1,4 +1,4 @@
-package quintinity.mods.mod3Ditems.client;
+package quintinity.mods.mod3Ditems.settings;
 import java.text.DecimalFormat;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;

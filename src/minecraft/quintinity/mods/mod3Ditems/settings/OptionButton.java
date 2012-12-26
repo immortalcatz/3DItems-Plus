@@ -1,8 +1,7 @@
-package quintinity.mods.mod3Ditems.client;
-
+package quintinity.mods.mod3Ditems.settings;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.FontRenderer;
-import net.minecraft.src.GuiButton;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
 import quintinity.api.settings.GuiMoreOptions;
 import quintinity.api.settings.IOptionHandler;
 import quintinity.api.settings.SettingsAPI;

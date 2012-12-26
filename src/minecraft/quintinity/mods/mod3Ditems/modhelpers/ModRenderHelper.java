@@ -3,9 +3,10 @@ import java.lang.reflect.Field;
 import java.util.*;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import quintinity.mods.mod3Ditems.ItemRenderer3D;
+import quintinity.mods.mod3Ditems.RenderHelper3D;
 import quintinity.mods.mod3Ditems.Mod3DItems;
 import quintinity.mods.mod3Ditems.ModChecker;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.src.*;
 import net.minecraftforge.client.ForgeHooksClient;
 
@@ -21,7 +22,7 @@ public class ModRenderHelper
 			if (pipeRenderClass != null) {
 				try {
 					EntityItem dummyItem = (EntityItem)itemField.get(null);
-					if (item.item.itemID == dummyItem.item.itemID) {
+					if (item.func_92014_d().itemID == dummyItem.func_92014_d().itemID) {
 						return true;
 					}
 					else {

@@ -1,4 +1,4 @@
-package quintinity.mods.mod3Ditems;
+package quintinity.api;
 
 public class Version 
 {
@@ -48,5 +48,12 @@ public class Version
     public String toString()
     {
     	return majorVersion + "." + minorVersion + "." + revisionVersion;
+    }
+    
+    public enum VersionCheckResult
+    {
+    	NEW_VERSION_AVAILIABLE,
+    	UP_TO_DATE,
+    	ERROR
     }
 }

@@ -1,10 +1,15 @@
 package quintinity.mods.mod3Ditems;
 import java.util.Random;
 import org.lwjgl.opengl.GL11;
-
 import quintinity.api.ItemIconManager;
 import quintinity.mods.mod3Ditems.modhelpers.*;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.*;
 import net.minecraft.src.*;
+import net.minecraft.util.*;
 import net.minecraftforge.client.IItemRenderer;
 
 public class ForgeRenderer implements IItemRenderer 
@@ -60,8 +65,8 @@ public class ForgeRenderer implements IItemRenderer
 			float blockScale = Settings.getBlockScale();
 			RenderBlocks blockRenderer = (RenderBlocks)data[0];
 			EntityItem entity = (EntityItem)data[1];
-			Timer timer = ItemRenderer3D.timer;
-			int width = ItemRenderer3D.getTextureWidth();
+			Timer timer = RenderHelper3D.timer;
+			int width = RenderHelper3D.getTextureWidth();
 	        random.setSeed(187L);
 	        float var12 = MathHelper.sin(((float)entity.age + timer.renderPartialTicks) / 10.0F + entity.hoverStart) * 0.1F + 0.1F;
 	        float var13 = (((float)entity.age + timer.renderPartialTicks) / 20.0F + entity.hoverStart) * (180F / (float)Math.PI);
@@ -72,17 +77,17 @@ public class ForgeRenderer implements IItemRenderer
 	        	return;
 	        }
 	        
-	        if (entity.item.stackSize > 1)
+	        if (entity.func_92014_d().stackSize > 1)
 	        {
 	            var14 = 2;
 	        }
 	
-	        if (entity.item.stackSize > 5)
+	        if (entity.func_92014_d().stackSize > 5)
 	        {
 	            var14 = 3;
 	        }
 	
-	        if (entity.item.stackSize > 20)
+	        if (entity.func_92014_d().stackSize > 20)
 	        {
 	            var14 = 4;
 	        }
@@ -94,7 +99,7 @@ public class ForgeRenderer implements IItemRenderer
 	        if (item.getItem() instanceof ItemBlock && RenderBlocks.renderItemIn3d(Block.blocksList[item.itemID].getRenderType()))
 	        {
 	            GL11.glRotatef(var13, 0.0F, 1.0F, 0.0F);
-	            ItemRenderer3D.loadTexture(Block.blocksList[item.itemID].getTextureFile());
+	            RenderHelper3D.loadTexture(Block.blocksList[item.itemID].getTextureFile());
 	            float var24 = 0.25F;
 	            var15 = Block.blocksList[item.itemID].getRenderType();
 	
@@ -134,7 +139,7 @@ public class ForgeRenderer implements IItemRenderer
 	            if (item.getItem().requiresMultipleRenderPasses())
 	            {
 	                GL11.glScalef(itemScale, itemScale, itemScale);
-	                ItemRenderer3D.loadTexture(Item.itemsList[item.itemID].getTextureFile());
+	                RenderHelper3D.loadTexture(Item.itemsList[item.itemID].getTextureFile());
 	
 	                for (var19 = 0; var19 <= item.getItem().getRenderPasses(item.getItemDamage()); ++var19)
 	                {
@@ -160,20 +165,20 @@ public class ForgeRenderer implements IItemRenderer
 	                        GL11.glColor4f(var16 * var20, var17 * var20, var22 * var20, 1.0F);
 	                    }
 	
-	                    if (ItemRenderer3D.leatherIDs.contains(item.itemID)) {
-	                    	if (var19 < 2) { ItemRenderer3D.renderWithOverlay(var15, var14, entity.item, random, width, true, var19); }
+	                    if (RenderHelper3D.leatherIDs.contains(item.itemID)) {
+	                    	if (var19 < 2) { RenderHelper3D.renderWithOverlay(var15, var14, entity.func_92014_d(), random, width, true, var19); }
 	                    	else {
-	                    		ItemRenderer3D.renderWithOverlay(var15, var14, entity.item, random, width, true, 0); 
+	                    		RenderHelper3D.renderWithOverlay(var15, var14, entity.func_92014_d(), random, width, true, 0); 
 	                    	}
 	                    	
 	                    }
 	                    else if (var19 == 2)
 	                    {
-	                        ItemRenderer3D.renderWithOverlay(var15, var14, entity.item, random, width, true, var19);
+	                        RenderHelper3D.renderWithOverlay(var15, var14, entity.func_92014_d(), random, width, true, var19);
 	                    }
 	                    else
 	                    {
-	                        ItemRenderer3D.render(var15, var14, entity.item, random, RenderManager.instance, width);
+	                        RenderHelper3D.render(var15, var14, entity.func_92014_d(), random, RenderManager.instance, width);
 	                    }
 	
 	                    if (Settings.getRenderIn3D())
@@ -187,7 +192,7 @@ public class ForgeRenderer implements IItemRenderer
 	            	GL11.glScalef(itemScale, itemScale, itemScale);
 	                //var19 = item.getIconIndex();
 	            	var19 = ItemIconManager.getIconForItem(item);
-	            	ItemRenderer3D.loadTexture(ItemIconManager.getTextureFile(item));
+	            	RenderHelper3D.loadTexture(ItemIconManager.getTextureFile(item));
 	                //ItemRenderer3D.loadTexture(item.getItem().getTextureFile());
 	
 	                if (Settings.getRenderIn3D())
@@ -210,7 +215,7 @@ public class ForgeRenderer implements IItemRenderer
 	                    GL11.glColor4f(var20 * var17, var18 * var17, var16 * var17, 1.0F);
 	                }
 	
-	                ItemRenderer3D.renderWithOverlay(var19, var14, entity.item, random, width);
+	                RenderHelper3D.renderWithOverlay(var19, var14, entity.func_92014_d(), random, width);
 	            }
 	        }
 		}

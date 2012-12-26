@@ -1,23 +1,15 @@
 package quintinity.mods.mod3Ditems.modhelpers;
-
 import java.util.Random;
-
-import net.minecraft.src.Block;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemBlock;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.MathHelper;
-import net.minecraft.src.RenderBlocks;
-import net.minecraft.src.RenderEngine;
-import net.minecraft.src.RenderManager;
-import net.minecraft.src.Tessellator;
-import net.minecraft.src.Timer;
-
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.item.*;
+import net.minecraft.item.*;
+import net.minecraft.util.Timer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import quintinity.mods.mod3Ditems.ItemRenderer3D;
+import quintinity.mods.mod3Ditems.RenderHelper3D;
 
 public class BuildCraftRenderHelper 
 {
@@ -36,8 +28,8 @@ public class BuildCraftRenderHelper
     public static void renderAsPipedItem(EntityItem par1EntityItem)
     {
         random.setSeed(187L);
-        ItemStack var10 = par1EntityItem.item;
-        Timer timer = ItemRenderer3D.timer;
+        ItemStack var10 = par1EntityItem.func_92014_d();
+        Timer timer = RenderHelper3D.timer;
         
         if (var10.getItem() != null)
         {
@@ -68,7 +60,7 @@ public class BuildCraftRenderHelper
                     for (var15 = 0; var15 < var10.getItem().getRenderPasses(var10.getItemDamage()); ++var15)
                     {
                         random.setSeed(187L); //Fixes Vanilla bug where layers would not render aligns properly.
-                        var16 = var10.getItem().getIconFromItemStackForMultiplePasses(var10, var15);
+                        var16 = 0;//var10.getItem().getIconFromDamageForRenderPass(var10, var15);
                         var17 = 1.0F;
 
                         if (field_77024_a)

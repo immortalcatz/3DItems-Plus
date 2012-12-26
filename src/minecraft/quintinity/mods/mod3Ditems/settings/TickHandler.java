@@ -1,4 +1,4 @@
-package quintinity.mods.mod3Ditems.client;
+package quintinity.mods.mod3Ditems.settings;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.*;
 import java.util.*;

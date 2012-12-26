@@ -1,8 +1,8 @@
-package quintinity.mods.mod3Ditems.client;
+package quintinity.mods.mod3Ditems.settings;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 import quintinity.mods.mod3Ditems.CommonProxy;
 import quintinity.mods.mod3Ditems.blocks.BlockRenderer;
 

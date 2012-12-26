@@ -1,9 +1,13 @@
 package quintinity.mods.mod3Ditems;
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
+import net.minecraft.block.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.item.*;
 import net.minecraft.src.*;
+import net.minecraft.util.Timer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -11,7 +15,7 @@ import quintinity.api.ItemIconManager;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
-public class ItemRenderer3D
+public class RenderHelper3D
 {
     public static Minecraft minecraft;
     public static RenderBlocks blockRenderer = new RenderBlocks();

@@ -1,26 +1,21 @@
 package quintinity.mods.mod3Ditems.blocks;
-
 import java.lang.reflect.Field;
 import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
-
 import quintinity.mods.mod3Ditems.ForgeRenderer;
-import quintinity.mods.mod3Ditems.ItemRenderer3D;
+import quintinity.mods.mod3Ditems.RenderHelper3D;
 import quintinity.mods.mod3Ditems.Settings;
-import net.minecraft.src.Block;
-import net.minecraft.src.ChunkCache;
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.RenderBlocks;
-import net.minecraft.src.RenderManager;
-import net.minecraft.src.Tessellator;
-import net.minecraft.src.World;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.world.ChunkCache;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
+//CURRENTLY USED
 public class BlockRenderer implements ISimpleBlockRenderingHandler 
 {
 	public boolean renderIn3D;
@@ -63,7 +58,7 @@ public class BlockRenderer implements ISimpleBlockRenderingHandler
 					e.printStackTrace();
 				}
 			}
-			render(block.blockIndexInTexture, ItemRenderer3D.getTextureWidth(), block, w, x, y, z);
+			render(block.blockIndexInTexture, RenderHelper3D.getTextureWidth(), block, w, x, y, z);
 	        //new RenderBlocks(world).renderCrossedSquares(block, x, y, z);
 			return true;
 		}

@@ -1,4 +1,4 @@
-package quintinity.mods.mod3Ditems.client;
+package quintinity.mods.mod3Ditems.settings;
 import java.util.ArrayList;
 import net.minecraft.client.Minecraft;
 import quintinity.api.settings.*;

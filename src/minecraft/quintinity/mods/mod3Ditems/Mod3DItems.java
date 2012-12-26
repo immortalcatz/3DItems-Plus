@@ -4,16 +4,15 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.*;
-
-import quintinity.api.ItemIconManager;
+import quintinity.api.*;
+import quintinity.api.Version.VersionCheckResult;
 import quintinity.api.settings.SettingsAPI;
 import quintinity.mods.mod3Ditems.blocks.*;
-import quintinity.mods.mod3Ditems.client.*;
 import quintinity.mods.mod3Ditems.modhelpers.*;
+import quintinity.mods.mod3Ditems.settings.*;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.SpriteHelper;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.client.registry.*;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -23,7 +22,13 @@ import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.*;
 import net.minecraft.src.*;
+import net.minecraft.world.World;
 import net.minecraftforge.client.*;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,8 +36,8 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
-@Mod(modid = "3ditems", name = "3DItems", version = "1.5.2", dependencies = "after:quinoptions")
-public class Mod3DItems
+@Mod(modid = "3ditems", name = "3DItems", version = "1.6.0", dependencies = "after:settingsapi")
+public class Mod3DItems implements IVersionChecker
 {
     public static Mod3DItems instance;
     
@@ -43,12 +48,13 @@ public class Mod3DItems
     
     public static boolean rotateInvItems = false;
     public static float angle = 0.0F;
-    @SidedProxy(clientSide = "quintinity.mods.mod3Ditems.client.ClientProxy", serverSide = "quintinity.mods.mod3Ditems.CommonProxy")
+    @SidedProxy(clientSide = "quintinity.mods.mod3Ditems.settings.ClientProxy", serverSide = "quintinity.mods.mod3Ditems.CommonProxy")
     public static CommonProxy proxy;
     public int renderers = 0;
     public Settings settings;
-    public Version currentVersion = new Version(1, 5, 2);
+    public Version currentVersion = new Version(1, 6, 0);
     public Version latestVersion;
+    public final String versionURL = "http://dl.dropbox.com/u/14129028/3DItems/version.txt";
     public boolean updateAvailable = false;
     private boolean messageSent = false;
 
@@ -56,7 +62,7 @@ public class Mod3DItems
     public void preInit(FMLPreInitializationEvent event)
     {
     	instance = this;
-    	ItemRenderer3D.init();
+    	RenderHelper3D.init();
     	loadSettings();
     	MinecraftForge.EVENT_BUS.register(this);
     	getLatestVersion();
@@ -66,7 +72,7 @@ public class Mod3DItems
     @Init
     public void init(FMLInitializationEvent event)
     {
-    	BlockOverrider.init();
+    	//BlockOverrider.init();
     	SettingsAPI.registerOptionHandler(new OptionHandler());
     	try {
 			this.getClass().getResource("/quintinity/mods/mod3Ditems/logo.png").toString();
@@ -87,10 +93,10 @@ public class Mod3DItems
         mcpatcherInstalled = ModChecker.checkMCPatcherInstallation();
         buildcraftInstalled = ModChecker.checkBuildCraftInstallation();
         ironchestsInstalled = ModChecker.checkIronChestsInstallation();
-        System.out.println("[3DItems] Icon width: " + ItemRenderer3D.getTextureWidth());
-        registerItemRenderers();
-        RenderManager.instance.entityRenderMap.remove(EntityItemFrame.class);
-        RenderManager.instance.entityRenderMap.put(EntityItemFrame.class, new ItemFrameRenderer());
+        System.out.println("[3DItems] Icon width: " + RenderHelper3D.getTextureWidth());
+        //registerItemRenderers();
+        RenderManager.instance.entityRenderMap.remove(EntityItem.class);
+        RenderManager.instance.entityRenderMap.put(EntityItem.class, new RenderItem3D());
         if (ironchestsInstalled) {
         	ArrayList<String> tileClasses = ModRenderHelper.getIronChestTEs();
         	for (int i = 0; i < tileClasses.size(); i++) {
@@ -144,7 +150,7 @@ public class Mod3DItems
     	ArrayList<String> authors = new ArrayList<String>();
     	authors.add("\u00a7cQuintinity");
     	data.authorList = authors;
-    	data.url = "\u00a73http://bit.ly/NfmELZ";
+    	data.url = "\u00a73bit.ly/NfmELZ";
     	data.description = "\u00a723DItems makes item entities on the ground render as a 3D model, plus a bunch of other stuff.";
     	data.logoFile = "/quintinity/mods/mod3Ditems/logo.png";
     }
@@ -196,9 +202,17 @@ public class Mod3DItems
     
     public void getLatestVersion()
     {
-    	new ScheduledThreadPoolExecutor(1).schedule(new ThreadVersion(), 10L, TimeUnit.MILLISECONDS);
+    	new ScheduledThreadPoolExecutor(1).schedule(new ThreadVersion(this, currentVersion, versionURL), 10L, TimeUnit.MILLISECONDS);
     }
     
+	public void versionChecked(VersionCheckResult result, Version latestVersion) 
+	{
+		this.latestVersion = latestVersion;
+		if (result == VersionCheckResult.NEW_VERSION_AVAILIABLE) {
+			updateAvailable = true;
+		}
+	}
+	
     public boolean onTickInGame(Minecraft var1)
     {
         angle += 7.0F;
