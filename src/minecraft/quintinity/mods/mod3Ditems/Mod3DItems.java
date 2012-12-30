@@ -97,7 +97,7 @@ public class Mod3DItems implements IVersionChecker
         //registerItemRenderers();
         RenderManager.instance.entityRenderMap.remove(EntityItem.class);
         RenderManager.instance.entityRenderMap.put(EntityItem.class, new RenderItem3D());
-        if (ironchestsInstalled) {
+        /*if (ironchestsInstalled) {
         	ArrayList<String> tileClasses = ModRenderHelper.getIronChestTEs();
         	for (int i = 0; i < tileClasses.size(); i++) {
         		Class tile = loadClass(tileClasses.get(i));
@@ -107,7 +107,7 @@ public class Mod3DItems implements IVersionChecker
         			renderer.setTileEntityRenderer(TileEntityRenderer.instance);
         		}
         	}
-        }
+        }*/
     }
     
     public String format(String s)
