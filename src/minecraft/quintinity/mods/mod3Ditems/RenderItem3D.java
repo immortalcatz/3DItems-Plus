@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderEngine;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -26,7 +27,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Timer;
 import net.minecraftforge.client.ForgeHooksClient;
 
-public class RenderItem3D extends Render
+public class RenderItem3D extends RenderItem
 {
 	private RenderBlocks renderBlocks = new RenderBlocks();
     private Random random = new Random();
