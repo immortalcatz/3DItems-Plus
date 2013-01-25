@@ -5,14 +5,14 @@ import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 
-public class GuiOptionButton extends GuiButton 
+public class OptionButton extends GuiButton 
 {
 	public GuiMoreOptions parent;
 	private boolean isMouseOver = false;
 	private long startTime;
 	private boolean isLink = false;
 	
-	public GuiOptionButton(int id, String text)
+	public OptionButton(int id, String text)
     {
         super(id, 0, 0, 150, 20, text);
     }

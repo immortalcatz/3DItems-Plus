@@ -16,9 +16,9 @@ import cpw.mods.fml.relauncher.Side;
 @Mod(modid="settingsapi", name="SettingsAPI", version="1.0")
 public class SettingsAPI 
 {
-	public HashMap<GuiOptionButton, IOptionHandler> buttonToHandlerMap = new HashMap<GuiOptionButton, IOptionHandler>();
+	public HashMap<OptionButton, IOptionHandler> buttonToHandlerMap = new HashMap<OptionButton, IOptionHandler>();
 	private ArrayList<IOptionHandler> handlers = new ArrayList<IOptionHandler>();
-	public ArrayList<GuiOptionButton> buttons = new ArrayList<GuiOptionButton>();
+	public ArrayList<OptionButton> buttons = new ArrayList<OptionButton>();
 	private static SettingsAPI instance;
 	private final int WIDTH = 0;
 	private final int HEIGHT = 1;
@@ -39,16 +39,16 @@ public class SettingsAPI
 		guiAPIinstalled = checkGuiAPIInstallation();
 		handlers.addAll(handlersToAdd);
 		handlersToAdd.clear();
-		ArrayList<GuiOptionButton> nonLinkButtons = new ArrayList<GuiOptionButton>();
-		ArrayList<GuiOptionButton> linkButtons = new ArrayList<GuiOptionButton>();
+		ArrayList<OptionButton> nonLinkButtons = new ArrayList<OptionButton>();
+		ArrayList<OptionButton> linkButtons = new ArrayList<OptionButton>();
 		System.out.println("Registered " + handlers.size() + " option handlers.");
 		if (handlers.size() > 0) {
 			for (int i = 0; i < handlers.size(); i++) {
 				IOptionHandler handler = handlers.get(i);
-				ArrayList<GuiOptionButton> currentsButtons = new ArrayList<GuiOptionButton>();
+				ArrayList<OptionButton> currentsButtons = new ArrayList<OptionButton>();
 				handler.registerButtons(currentsButtons);
 				for (int b = 0; b < currentsButtons.size(); b++) {
-					GuiOptionButton button = currentsButtons.get(b);
+					OptionButton button = currentsButtons.get(b);
 					setPrivateSize(button, WIDTH, 150);
 					setPrivateSize(button, HEIGHT, 20);
 					buttonToHandlerMap.put(button, handler);
@@ -81,7 +81,7 @@ public class SettingsAPI
 		return instance;
 	}
 	
-	private void setPrivateSize(GuiOptionButton button, int index, int value)
+	private void setPrivateSize(OptionButton button, int index, int value)
     {
     	try 
     	{

@@ -21,7 +21,7 @@ public class GuiMoreOptions extends GuiScreen
 	private int currentPage = 0;
 	private final int buttonsPerPage = 14;
 	private int pageCount = 1;
-	private ArrayList<ArrayList<GuiOptionButton>> pages;
+	private ArrayList<ArrayList<OptionButton>> pages;
 	
 	
 	public GuiMoreOptions(GuiScreen parent)
@@ -35,7 +35,7 @@ public class GuiMoreOptions extends GuiScreen
 	{
 		currentPage = page;
 		this.controlList.clear();
-		ArrayList<GuiOptionButton> buttons = SettingsAPI.getInstance().buttons;
+		ArrayList<OptionButton> buttons = SettingsAPI.getInstance().buttons;
 		pageCount = (int)Math.ceil((float)buttons.size() / (float)buttonsPerPage);
 		StringTranslate translater = StringTranslate.getInstance();
 		this.controlList.add(doneButton = new GuiButton(0, this.width / 2 - 100, this.height / 6 + 168, translater.translateKey("gui.done")));
@@ -46,7 +46,7 @@ public class GuiMoreOptions extends GuiScreen
 		if (buttons.size() > 0) {
 			for (int i = page * buttonsPerPage; i < ((page + 1) * buttonsPerPage); i++) {
 				try {
-					GuiOptionButton button = buttons.get(i);
+					OptionButton button = buttons.get(i);
 					if (i % 2 == 0) { button.xPosition = this.width / 2 - 152; }
 					else { button.xPosition = this.width / 2 + 2; }
 					button.yPosition = this.height / 6 + 23 * (count >> 1);
@@ -79,8 +79,8 @@ public class GuiMoreOptions extends GuiScreen
             else if (button == nextButton) {
             	initGui(currentPage + 1);
             }
-            else if (button instanceof GuiOptionButton) {
-            	GuiOptionButton optionButton = (GuiOptionButton)button;
+            else if (button instanceof OptionButton) {
+            	OptionButton optionButton = (OptionButton)button;
             	IOptionHandler handler = options.buttonToHandlerMap.get(optionButton);
             	if (handler != null) {
             		handler.buttonClicked(optionButton, minecraft);

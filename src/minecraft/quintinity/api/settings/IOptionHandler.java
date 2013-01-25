@@ -4,9 +4,9 @@ import net.minecraft.client.Minecraft;
 
 public interface IOptionHandler 
 {
-	public void registerButtons(ArrayList<GuiOptionButton> list);
+	public void registerButtons(ArrayList<OptionButton> list);
 	
-	public OptionDescription getDescription(GuiOptionButton button);
+	public OptionDescription getDescription(OptionButton button);
 	
-	public void buttonClicked(GuiOptionButton button, Minecraft minecraft);
+	public void buttonClicked(OptionButton button, Minecraft minecraft);
 }

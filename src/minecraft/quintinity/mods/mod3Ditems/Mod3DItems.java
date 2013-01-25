@@ -23,9 +23,11 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.item.*;
 import net.minecraft.src.*;
 import net.minecraft.world.World;
@@ -46,6 +48,7 @@ public class Mod3DItems implements IVersionChecker
     public static boolean buildcraftInstalled = false; //BuildCraft mod
     public static boolean ironchestsInstalled = false; //IronChests2 mod
     
+    public static RenderItem originalRenderer;
     public static boolean rotateInvItems = false;
     public static float angle = 0.0F;
     @SidedProxy(clientSide = "quintinity.mods.mod3Ditems.settings.ClientProxy", serverSide = "quintinity.mods.mod3Ditems.CommonProxy")
@@ -95,8 +98,10 @@ public class Mod3DItems implements IVersionChecker
         ironchestsInstalled = ModChecker.checkIronChestsInstallation();
         System.out.println("[3DItems] Icon width: " + RenderHelper3D.getTextureWidth());
         //registerItemRenderers();
-        RenderManager.instance.entityRenderMap.remove(EntityItem.class);
+        originalRenderer = (RenderItem) RenderManager.instance.entityRenderMap.get(EntityItem.class);
         RenderManager.instance.entityRenderMap.put(EntityItem.class, new RenderItem3D());
+        RenderManager.instance.entityRenderMap.put(EntityItemFrame.class, new ItemFrameRenderer());
+        
         /*if (ironchestsInstalled) {
         	ArrayList<String> tileClasses = ModRenderHelper.getIronChestTEs();
         	for (int i = 0; i < tileClasses.size(); i++) {
@@ -141,7 +146,6 @@ public class Mod3DItems implements IVersionChecker
     	Settings.setItemBobbing(settings.getProperty("ItemBobbing", true));
     	Settings.setItemRotation(settings.getProperty("ItemRotation", true));
     	settings.save();
-    	
     }
     
     public void setModData(ModMetadata data)

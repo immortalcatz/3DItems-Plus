@@ -5,19 +5,19 @@ import quintinity.api.settings.*;
 
 public class OptionHandler implements IOptionHandler 
 {
-	public void registerButtons(ArrayList<GuiOptionButton> list) 
+	public void registerButtons(ArrayList<OptionButton> list) 
 	{
-		GuiOptionButton button = new GuiOptionButton(0, "3DItems Settings...");
+		OptionButton button = new OptionButton(0, "3DItems Settings...");
 		button.setIsLink(true);
 		list.add(button);
 	}
 
-	public OptionDescription getDescription(GuiOptionButton button) 
+	public OptionDescription getDescription(OptionButton button) 
 	{
 		return null;
 	}
 
-	public void buttonClicked(GuiOptionButton button, Minecraft minecraft) 
+	public void buttonClicked(OptionButton button, Minecraft minecraft) 
 	{
 		if (button.id == 0) {
 			GuiSettings gui = new GuiSettings(minecraft.currentScreen);
