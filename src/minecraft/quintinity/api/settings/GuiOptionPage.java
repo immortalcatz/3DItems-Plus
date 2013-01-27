@@ -9,7 +9,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.src.*;
 import net.minecraft.util.StringTranslate;
 
-public class GuiMoreOptions extends GuiScreen
+public class GuiOptionPage extends GuiScreen
 {
 	public GuiScreen parent;
 	public GuiButton doneButton;
@@ -21,13 +21,15 @@ public class GuiMoreOptions extends GuiScreen
 	private int currentPage = 0;
 	private final int buttonsPerPage = 14;
 	private int pageCount = 1;
+	public OptionPage optionPage;
 	private ArrayList<ArrayList<OptionButton>> pages;
 	
 	
-	public GuiMoreOptions(GuiScreen parent)
+	public GuiOptionPage(OptionPage optionPage, GuiScreen parent)
 	{
 		this.parent = parent;
 		this.options = SettingsAPI.getInstance();
+		this.optionPage = optionPage;
 		minecraft = FMLClientHandler.instance().getClient();
 	}
 	
@@ -35,7 +37,7 @@ public class GuiMoreOptions extends GuiScreen
 	{
 		currentPage = page;
 		this.controlList.clear();
-		ArrayList<LinkButton> buttons = SettingsAPI.getInstance().buttons;
+		ArrayList<OptionButton> buttons = optionPage.buttons;
 		pageCount = (int)Math.ceil((float)buttons.size() / (float)buttonsPerPage);
 		StringTranslate translater = StringTranslate.getInstance();
 		this.controlList.add(doneButton = new GuiButton(0, this.width / 2 - 100, this.height / 6 + 168, translater.translateKey("gui.done")));
@@ -50,14 +52,22 @@ public class GuiMoreOptions extends GuiScreen
 					if (i % 2 == 0) { button.xPosition = this.width / 2 - 152; }
 					else { button.xPosition = this.width / 2 + 2; }
 					button.yPosition = this.height / 6 + 23 * (count >> 1);
-					button.parent = this;
+					//button.parent = this;
 					controlList.add(button);
 					++count;
+					if (button instanceof OptionSlider) {
+						((OptionSlider)button).parent = this;
+					}
 				}
 				catch (Exception e) {
 					return;
 				}
 			}
+		}
+		System.out.println("Pages: " + pageCount);
+		if (pageCount <= 1) {
+			prevButton.drawButton = false;
+			nextButton.drawButton = false;
 		}
 	}
 	
@@ -66,7 +76,7 @@ public class GuiMoreOptions extends GuiScreen
 		initGui(0);
 	}
 	
-	protected void actionPerformed(GuiButton button)
+	public void actionPerformed(GuiButton button)
     {
         if (button.enabled)
         {
@@ -79,15 +89,18 @@ public class GuiMoreOptions extends GuiScreen
             else if (button == nextButton) {
             	initGui(currentPage + 1);
             }
-            else if (button instanceof LinkButton) {
-            	SettingsAPI.showOptionPage(((LinkButton)button).page);
+            else if (button instanceof OptionSlider) {
+            	this.optionPage.optionHandler.sliderClicked(optionPage, (OptionSlider)button, minecraft);
+            }
+            else if (button instanceof OptionButton) {
+            	this.optionPage.optionHandler.buttonClicked(optionPage, (OptionButton)button, minecraft);
             }
         }
     }
 	protected void drawDescription(OptionDescription desc, int x, int y, int yOffset)
     {
     	String[] lines = desc.getLines();
-    	FontRenderer fontRenderer = GuiMoreOptions.getFontRenderer();
+    	FontRenderer fontRenderer = GuiOptionPage.getFontRenderer();
         int var4 = 300;
         int var5 = width / 2 - 150;
         int var6 = height / 6 + 75 + yOffset;
@@ -120,8 +133,10 @@ public class GuiMoreOptions extends GuiScreen
     public void drawScreen(int x, int y, float par3)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRenderer, "Mod Options", this.width / 2, 10, 16777215);
-        this.drawCenteredString(this.fontRenderer, "Page " + (currentPage + 1) + "/" + pageCount, this.width / 2, 25, -6250336);
+        this.drawCenteredString(this.fontRenderer, optionPage.title, this.width / 2, 10, 16777215);
+        if (pageCount > 1) {
+        	this.drawCenteredString(this.fontRenderer, "Page " + (currentPage + 1) + "/" + pageCount, this.width / 2, 25, -6250336);
+        }
         super.drawScreen(x, y, par3);
         int offset = 0;
         if (y + 20 > this.height / 2) { offset = -100; }
@@ -138,8 +153,8 @@ public class GuiMoreOptions extends GuiScreen
     
     public static void setCurrentDescription(OptionDescription desc)
     {
-    	if (minecraft.currentScreen != null && minecraft.currentScreen instanceof GuiMoreOptions) {
-    		((GuiMoreOptions)minecraft.currentScreen).currentDesc = desc;
+    	if (minecraft.currentScreen != null && minecraft.currentScreen instanceof GuiOptionPage) {
+    		((GuiOptionPage)minecraft.currentScreen).currentDesc = desc;
     	}
     }
     

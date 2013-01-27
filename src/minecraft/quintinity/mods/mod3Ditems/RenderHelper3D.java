@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import quintinity.api.ItemIconManager;
+import quintinity.mods.mod3Ditems.settings.Settings;
 
 import cpw.mods.fml.client.FMLClientHandler;
 

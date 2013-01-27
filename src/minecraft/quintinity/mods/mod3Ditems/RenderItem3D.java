@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL12;
 import quintinity.api.ItemIconManager;
 import quintinity.mods.mod3Ditems.modhelpers.BuildCraftRenderHelper;
 import quintinity.mods.mod3Ditems.modhelpers.ModRenderHelper;
+import quintinity.mods.mod3Ditems.settings.Settings;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;

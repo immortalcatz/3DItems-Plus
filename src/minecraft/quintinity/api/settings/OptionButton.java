@@ -32,7 +32,7 @@ public class OptionButton extends GuiButton
             else if (hoverState == 2 && isMouseOver) {
             	if (System.currentTimeMillis() - startTime > 1000) {
             		IOptionHandler handler = SettingsAPI.getInstance().buttonToHandlerMap.get(this);
-            		GuiMoreOptions.setCurrentDescription(handler.getDescription(this));
+            		//GuiMoreOptions.setCurrentDescription(handler.getDescription(this));
             	}
             }
             else if (hoverState != 2 && isMouseOver) {

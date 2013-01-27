@@ -38,7 +38,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
-@Mod(modid = "3ditems", name = "3DItems", version = "1.6.1", dependencies = "after:settingsapi")
+@Mod(modid = "3ditems", name = "3DItems", version = "1.6.2", dependencies = "after:settingsapi")
 public class Mod3DItems implements IVersionChecker
 {
     public static Mod3DItems instance;
@@ -55,11 +55,12 @@ public class Mod3DItems implements IVersionChecker
     public static CommonProxy proxy;
     public int renderers = 0;
     public Settings settings;
-    public Version currentVersion = new Version(1, 6, 1);
+    public Version currentVersion = new Version(1, 6, 2);
     public Version latestVersion;
     public final String versionURL = "http://dl.dropbox.com/u/14129028/3DItems/version.txt";
     public boolean updateAvailable = false;
     private boolean messageSent = false;
+    public OptionHandler handler;
 
     @PreInit
     public void preInit(FMLPreInitializationEvent event)
@@ -67,16 +68,18 @@ public class Mod3DItems implements IVersionChecker
     	instance = this;
     	RenderHelper3D.init();
     	loadSettings();
+    	
     	MinecraftForge.EVENT_BUS.register(this);
     	getLatestVersion();
     	setModData(event.getModMetadata());
+    	handler = new OptionHandler();
     }
     
     @Init
     public void init(FMLInitializationEvent event)
     {
     	//BlockOverrider.init();
-    	SettingsAPI.registerOptionHandler(new OptionHandler());
+    	//SettingsAPI.registerOptionHandler(new OptionHandler());
     	try {
 			this.getClass().getResource("/quintinity/mods/mod3Ditems/logo.png").toString();
 		} 

@@ -32,7 +32,7 @@ public class RefactorGui implements ITickHandler
 							}
 						}
 					}
-					button = new ButtonMore(109, gui.width / 2 + 2, gui.height / 6 + 144 - 6, 150, 20, "More Options...");
+					button = new ButtonMore(109, gui.width / 2 + 2, gui.height / 6 + 144 - 6, 150, 20, "Mod Options...");
 					list.add(button);
 				}
 				else if (SettingsAPI.guiAPIinstalled && list.size() < 15 && SettingsAPI.getInstance().buttons.size() > 0) {
@@ -44,7 +44,7 @@ public class RefactorGui implements ITickHandler
 							}
 						}
 					}
-					button = new ButtonMore(109, gui.width / 2 - 152, gui.height / 6 + 144 + 24 - 6, 150, 20, "More Options...");
+					button = new ButtonMore(109, gui.width / 2 - 152, gui.height / 6 + 144 + 24 - 6, 150, 20, "Mod Options...");
 					list.add(button);
 				}
 			}

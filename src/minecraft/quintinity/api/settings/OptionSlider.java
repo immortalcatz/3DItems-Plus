@@ -1,20 +1,21 @@
-package quintinity.mods.mod3Ditems.settings;
+package quintinity.api.settings;
 import java.text.DecimalFormat;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
+
+import quintinity.mods.mod3Ditems.settings.GuiSettings;
 
 public class OptionSlider extends OptionButton 
 {
     public float sliderValue = 1.0F;
     public boolean dragging = false;
     public String text;
-    public GuiSettings parent;
+    public GuiOptionPage parent;
     
-	public OptionSlider(int id, int x, int y, String text, GuiSettings parent, float value) 
+	public OptionSlider(int id, String text, float value) 
 	{
-		super(id, x, y, text);
+		super(id, text);
 		this.text = text.split(":")[0] + ": ";
-		this.parent = parent;
 		sliderValue = Float.parseFloat(Double.toString(((value - 0.5) / 1.5)).substring(0, 3));
 	}
 	

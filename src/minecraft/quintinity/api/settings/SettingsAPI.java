@@ -6,6 +6,7 @@ import java.util.*;
 
 import quintinity.api.config.ConfigFile;
 import net.minecraft.client.Minecraft;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.Mod.*;
@@ -13,16 +14,20 @@ import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid="settingsapi", name="SettingsAPI", version="1.0")
+@Mod(modid="settingsapi", name="SettingsAPI", version="1.1")
 public class SettingsAPI 
 {
 	public HashMap<OptionButton, IOptionHandler> buttonToHandlerMap = new HashMap<OptionButton, IOptionHandler>();
 	private ArrayList<IOptionHandler> handlers = new ArrayList<IOptionHandler>();
-	public ArrayList<OptionButton> buttons = new ArrayList<OptionButton>();
+	
+	public ArrayList<LinkButton> buttons = new ArrayList<LinkButton>();
+	public ArrayList<OptionPage> mainPages = new ArrayList<OptionPage>();
+	
 	private static SettingsAPI instance;
 	private final int WIDTH = 0;
 	private final int HEIGHT = 1;
 	private static ArrayList<IOptionHandler> handlersToAdd = new ArrayList<IOptionHandler>();
+	private static Minecraft minecraft;
 	public static boolean guiAPIinstalled = false;
 	
 	@PreInit
@@ -31,6 +36,7 @@ public class SettingsAPI
 		instance = this;
 		TickRegistry.registerTickHandler(new RefactorGui(), Side.CLIENT);
 		setModData(e.getModMetadata());
+		minecraft = FMLClientHandler.instance().getClient();
 	}
 	
 	@PostInit
@@ -39,26 +45,14 @@ public class SettingsAPI
 		guiAPIinstalled = checkGuiAPIInstallation();
 		handlers.addAll(handlersToAdd);
 		handlersToAdd.clear();
-		ArrayList<OptionButton> nonLinkButtons = new ArrayList<OptionButton>();
-		ArrayList<OptionButton> linkButtons = new ArrayList<OptionButton>();
-		System.out.println("Registered " + handlers.size() + " option handlers.");
-		if (handlers.size() > 0) {
-			for (int i = 0; i < handlers.size(); i++) {
-				IOptionHandler handler = handlers.get(i);
-				ArrayList<OptionButton> currentsButtons = new ArrayList<OptionButton>();
-				handler.registerButtons(currentsButtons);
-				for (int b = 0; b < currentsButtons.size(); b++) {
-					OptionButton button = currentsButtons.get(b);
-					setPrivateSize(button, WIDTH, 150);
-					setPrivateSize(button, HEIGHT, 20);
-					buttonToHandlerMap.put(button, handler);
-					if (button.isLink()) { linkButtons.add(button); }
-					else {nonLinkButtons.add(button); }
-				}
-			}
+		
+		for (int i = 0; i < mainPages.size(); i++) {
+			OptionPage page = mainPages.get(i);
+			LinkButton button = new LinkButton(page.buttonName, page);
+			setPrivateSize(button, WIDTH, 150);
+			setPrivateSize(button, HEIGHT, 20);
+			buttons.add(button);
 		}
-		buttons.addAll(nonLinkButtons);
-		buttons.addAll(linkButtons);
 	}
 	
 	public void reloadHandlers()
@@ -76,6 +70,17 @@ public class SettingsAPI
 		}
 	}
 	
+	public static void showOptionPage(OptionPage page)
+	{
+		GuiOptionPage gui = new GuiOptionPage(page, minecraft.currentScreen);
+		minecraft.displayGuiScreen(gui);
+	}
+	
+	public static void registerMainOptionPage(OptionPage page)
+	{
+		instance.mainPages.add(page);
+	}
+	
 	public static SettingsAPI getInstance()
 	{
 		return instance;
@@ -86,6 +91,9 @@ public class SettingsAPI
     	try 
     	{
 	    	Class<?> clazz = button.getClass().getSuperclass();
+	    	if (button instanceof LinkButton) {
+	    		clazz = clazz.getSuperclass();
+	    	}
 	    	Field field = clazz.getDeclaredFields()[index];
 	    	field.setAccessible(true);
 	    	field.setInt(button, value);

@@ -3,6 +3,7 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import quintinity.api.ItemIconManager;
 import quintinity.mods.mod3Ditems.modhelpers.*;
+import quintinity.mods.mod3Ditems.settings.Settings;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderManager;

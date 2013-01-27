@@ -1,7 +1,9 @@
-package quintinity.mods.mod3Ditems;
+package quintinity.mods.mod3Ditems.settings;
 import java.io.*;
 import java.util.HashMap;
 import quintinity.api.config.ConfigFile;
+import quintinity.api.settings.OptionPage;
+import quintinity.api.settings.SettingsAPI;
 
 public class Settings extends ConfigFile
 {
@@ -13,6 +15,7 @@ public class Settings extends ConfigFile
     private static boolean itemRotation = true;
     public static boolean use3Dblocks = true;
     private static float renderDistance = 1F;
+    public static OptionPage page;
     //private static HashMap<Float, String> txt = new HashMap<Float, String>();
     
     public Settings(File file) 

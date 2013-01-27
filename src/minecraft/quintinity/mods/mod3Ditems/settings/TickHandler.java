@@ -3,7 +3,11 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.*;
 import java.util.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.item.EntityItem;
 import quintinity.mods.mod3Ditems.Mod3DItems;
+import quintinity.mods.mod3Ditems.RenderItem3D;
 
 public class TickHandler implements ITickHandler
 {
@@ -17,14 +21,21 @@ public class TickHandler implements ITickHandler
 	
     public void tickStart(EnumSet type, Object ... data)
     {
-        Mod3DItems.instance.onTickInGame(FMLClientHandler.instance().getClient());
-        if (messages.size() > 0 && minecraft.thePlayer != null) {
-        	for (int i = 0; i < messages.size(); i++) {
-        		minecraft.thePlayer.sendChatToPlayer(messages.get(i));
-        		messages.remove(i);
-        	}
-        }
-        
+    	if (type.equals(EnumSet.of(TickType.RENDER))) {
+	        Mod3DItems.instance.onTickInGame(minecraft);
+	        if (messages.size() > 0 && minecraft.thePlayer != null) {
+	        	for (int i = 0; i < messages.size(); i++) {
+	        		minecraft.thePlayer.sendChatToPlayer(messages.get(i));
+	        		messages.remove(i);
+	        	}
+	        }
+	        if (minecraft.currentScreen != null && minecraft.currentScreen instanceof GuiMainMenu) {
+	        	if (!(RenderManager.instance.entityRenderMap.get(EntityItem.class) instanceof RenderItem3D)) {
+	        		RenderManager.instance.entityRenderMap.put(EntityItem.class, new RenderItem3D());
+	        		System.out.println("Overriding item renderer");
+	        	}
+	        }
+    	}
     }
 
     public void tickEnd(EnumSet type, Object ... data) {}

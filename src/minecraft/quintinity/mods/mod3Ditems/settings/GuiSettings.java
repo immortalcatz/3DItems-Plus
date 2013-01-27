@@ -6,10 +6,10 @@ import org.lwjgl.opengl.GL12;
 
 import quintinity.api.settings.GuiMoreOptions;
 import quintinity.api.settings.IOptionHandler;
+import quintinity.api.settings.OptionButton;
 import quintinity.api.settings.OptionDescription;
 import quintinity.api.settings.SettingsAPI;
 import quintinity.mods.mod3Ditems.Mod3DItems;
-import quintinity.mods.mod3Ditems.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -35,7 +35,7 @@ public class GuiSettings extends GuiScreen
     }
 
     public void initGui()
-    {
+    {/*
         StringTranslate st = StringTranslate.getInstance();
         //23 height
         this.controlList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, st.translateKey("gui.done")));
@@ -47,10 +47,12 @@ public class GuiSettings extends GuiScreen
         this.controlList.add(rotation = new OptionButton(6, this.width / 2 + 2, this.height / 6 + 46, "Item Rotation: " + booleanToString(Settings.getItemRotation())));
         this.controlList.add(new OptionButton(7, this.width / 2 + 2, this.height / 6, "Item Render Distance: " + YELLOW + trimFloat(Settings.getRenderDistance()) + "x"));
         rotation.enabled = Settings.getRenderIn3D();
+        */
     }
 
     protected void actionPerformed(GuiButton button)
     {
+    	/*
         if (button.enabled)
         {
         	if (button.id == 200) {
@@ -108,7 +110,7 @@ public class GuiSettings extends GuiScreen
         		}
         		button.displayString = "Item Render Distance: " + YELLOW + trimFloat(Settings.getRenderDistance()) + "x";
         	}
-        }
+        }*/
     }
 
     public void drawScreen(int x, int y, float ticks)

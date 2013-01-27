@@ -4,7 +4,7 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import quintinity.mods.mod3Ditems.ForgeRenderer;
 import quintinity.mods.mod3Ditems.RenderHelper3D;
-import quintinity.mods.mod3Ditems.Settings;
+import quintinity.mods.mod3Ditems.settings.Settings;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
