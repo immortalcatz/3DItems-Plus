@@ -3,8 +3,6 @@ import java.text.DecimalFormat;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-import quintinity.mods.mod3Ditems.settings.GuiSettings;
-
 public class OptionSlider extends OptionButton 
 {
     public float sliderValue = 1.0F;

@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import quintinity.api.Version.VersionCheckResult;
-import quintinity.mods.mod3Ditems.Mod3DItems;
 
 public class ThreadVersion implements Runnable 
 {

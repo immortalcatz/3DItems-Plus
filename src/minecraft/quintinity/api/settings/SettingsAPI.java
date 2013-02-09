@@ -3,10 +3,12 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
-
+import org.lwjgl.input.Keyboard;
 import quintinity.api.config.ConfigFile;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.Mod.*;
@@ -30,6 +32,8 @@ public class SettingsAPI
 	private static Minecraft minecraft;
 	public static boolean guiAPIinstalled = false;
 	
+	private static KeyBinding keybinding = new KeyBinding("Open Mod Options", Keyboard.KEY_O);
+	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent e)
 	{
@@ -37,6 +41,13 @@ public class SettingsAPI
 		TickRegistry.registerTickHandler(new RefactorGui(), Side.CLIENT);
 		setModData(e.getModMetadata());
 		minecraft = FMLClientHandler.instance().getClient();
+		
+	}
+	
+	@Init
+	public void init(FMLInitializationEvent e)
+	{
+		KeyBindingRegistry.registerKeyBinding(new OptionKeyHandler(new KeyBinding[] {keybinding }));
 	}
 	
 	@PostInit

@@ -15,6 +15,7 @@ import quintinity.api.ItemIconManager;
 import quintinity.mods.mod3Ditems.settings.Settings;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.TextureFXManager;
 
 public class RenderHelper3D
 {
@@ -49,7 +50,7 @@ public class RenderHelper3D
                 }
                 else
                 {
-                	textureWidth = 16;
+                	textureWidth = TextureFXManager.instance().getTextureDimensions(GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D)).width / 16;
                 }
             }
             catch (Exception var3)
@@ -224,90 +225,94 @@ public class RenderHelper3D
         }
     }
 
-    public static void renderItemIn3D(Tessellator var0, float var1, float var2, float var3, float var4, int var5)
+    public static void renderItemIn3D(Tessellator par0Tessellator, float par1, float par2, float par3, float par4, float par5)
     {
         float var6 = 1.0F;
-        float var7 = 0.0625F;
-        var0.startDrawingQuads();
-        var0.setNormal(0.0F, 0.0F, 1.0F);
-        var0.addVertexWithUV(0.0D, 0.0D, 0.0D, (double)var1, (double)var4);
-        var0.addVertexWithUV((double)var6, 0.0D, 0.0D, (double)var3, (double)var4);
-        var0.addVertexWithUV((double)var6, 1.0D, 0.0D, (double)var3, (double)var2);
-        var0.addVertexWithUV(0.0D, 1.0D, 0.0D, (double)var1, (double)var2);
-        var0.draw();
-        var0.startDrawingQuads();
-        var0.setNormal(0.0F, 0.0F, -1.0F);
-        var0.addVertexWithUV(0.0D, 1.0D, (double)(0.0F - var7), (double)var1, (double)var2);
-        var0.addVertexWithUV((double)var6, 1.0D, (double)(0.0F - var7), (double)var3, (double)var2);
-        var0.addVertexWithUV((double)var6, 0.0D, (double)(0.0F - var7), (double)var3, (double)var4);
-        var0.addVertexWithUV(0.0D, 0.0D, (double)(0.0F - var7), (double)var1, (double)var4);
-        var0.draw();
-        float var8 = 1.0F / (float)(32 * var5);
-        float var9 = 1.0F / (float)var5;
-        var0.startDrawingQuads();
-        var0.setNormal(-1.0F, 0.0F, 0.0F);
-        int var10;
-        float var11;
-        float var12;
-        float var13;
+        par0Tessellator.startDrawingQuads();
+        par0Tessellator.setNormal(0.0F, 0.0F, 1.0F);
+        par0Tessellator.addVertexWithUV(0.0D, 0.0D, 0.0D, (double)par1, (double)par4);
+        par0Tessellator.addVertexWithUV((double)var6, 0.0D, 0.0D, (double)par3, (double)par4);
+        par0Tessellator.addVertexWithUV((double)var6, 1.0D, 0.0D, (double)par3, (double)par2);
+        par0Tessellator.addVertexWithUV(0.0D, 1.0D, 0.0D, (double)par1, (double)par2);
+        par0Tessellator.draw();
+        par0Tessellator.startDrawingQuads();
+        par0Tessellator.setNormal(0.0F, 0.0F, -1.0F);
+        par0Tessellator.addVertexWithUV(0.0D, 1.0D, (double)(0.0F - par5), (double)par1, (double)par2);
+        par0Tessellator.addVertexWithUV((double)var6, 1.0D, (double)(0.0F - par5), (double)par3, (double)par2);
+        par0Tessellator.addVertexWithUV((double)var6, 0.0D, (double)(0.0F - par5), (double)par3, (double)par4);
+        par0Tessellator.addVertexWithUV(0.0D, 0.0D, (double)(0.0F - par5), (double)par1, (double)par4);
+        par0Tessellator.draw();
+        par0Tessellator.startDrawingQuads();
+        par0Tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+        int var7;
+        float var8;
+        float var9;
+        float var10;
 
-        for (var10 = 0; var10 < var5; ++var10)
+        /* Gets the width/16 of the currently bound texture, used
+         * to fix the side rendering issues on textures != 16 */
+        int tileSize = getTextureWidth();
+
+        float tx = 1.0f / (32 * tileSize);
+        float tz = 1.0f /  tileSize;
+
+        for (var7 = 0; var7 < tileSize; ++var7)
         {
-            var11 = (float)var10 / ((float)var5 * 1.0F);
-            var12 = var1 + (var3 - var1) * var11 - var8;
-            var13 = var6 * var11;
-            var0.addVertexWithUV((double)var13, 0.0D, (double)(0.0F - var7), (double)var12, (double)var4);
-            var0.addVertexWithUV((double)var13, 0.0D, 0.0D, (double)var12, (double)var4);
-            var0.addVertexWithUV((double)var13, 1.0D, 0.0D, (double)var12, (double)var2);
-            var0.addVertexWithUV((double)var13, 1.0D, (double)(0.0F - var7), (double)var12, (double)var2);
+            var8 = (float)var7 / tileSize;
+            var9 = par1 + (par3 - par1) * var8 - tx;
+            var10 = var6 * var8;
+            par0Tessellator.addVertexWithUV((double)var10, 0.0D, (double)(0.0F - par5), (double)var9, (double)par4);
+            par0Tessellator.addVertexWithUV((double)var10, 0.0D, 0.0D, (double)var9, (double)par4);
+            par0Tessellator.addVertexWithUV((double)var10, 1.0D, 0.0D, (double)var9, (double)par2);
+            par0Tessellator.addVertexWithUV((double)var10, 1.0D, (double)(0.0F - par5), (double)var9, (double)par2);
         }
 
-        var0.draw();
-        var0.startDrawingQuads();
-        var0.setNormal(1.0F, 0.0F, 0.0F);
+        par0Tessellator.draw();
+        par0Tessellator.startDrawingQuads();
+        par0Tessellator.setNormal(1.0F, 0.0F, 0.0F);
 
-        for (var10 = 0; var10 < var5; ++var10)
+        for (var7 = 0; var7 < tileSize; ++var7)
         {
-            var11 = (float)var10 / ((float)var5 * 1.0F);
-            var12 = var1 + (var3 - var1) * var11 - var8;
-            var13 = var6 * var11 + var9;
-            var0.addVertexWithUV((double)var13, 1.0D, (double)(0.0F - var7), (double)var12, (double)var2);
-            var0.addVertexWithUV((double)var13, 1.0D, 0.0D, (double)var12, (double)var2);
-            var0.addVertexWithUV((double)var13, 0.0D, 0.0D, (double)var12, (double)var4);
-            var0.addVertexWithUV((double)var13, 0.0D, (double)(0.0F - var7), (double)var12, (double)var4);
+            var8 = (float)var7 / tileSize;
+            var9 = par1 + (par3 - par1) * var8 - tx;
+            var10 = var6 * var8 + tz;
+            par0Tessellator.addVertexWithUV((double)var10, 1.0D, (double)(0.0F - par5), (double)var9, (double)par2);
+            par0Tessellator.addVertexWithUV((double)var10, 1.0D, 0.0D, (double)var9, (double)par2);
+            par0Tessellator.addVertexWithUV((double)var10, 0.0D, 0.0D, (double)var9, (double)par4);
+            par0Tessellator.addVertexWithUV((double)var10, 0.0D, (double)(0.0F - par5), (double)var9, (double)par4);
         }
 
-        var0.draw();
-        var0.startDrawingQuads();
-        var0.setNormal(0.0F, 1.0F, 0.0F);
+        par0Tessellator.draw();
+        par0Tessellator.startDrawingQuads();
+        par0Tessellator.setNormal(0.0F, 1.0F, 0.0F);
 
-        for (var10 = 0; var10 < var5; ++var10)
+        for (var7 = 0; var7 < tileSize; ++var7)
         {
-            var11 = (float)var10 / ((float)var5 * 1.0F);
-            var12 = var4 + (var2 - var4) * var11 - var8;
-            var13 = var6 * var11 + var9;
-            var0.addVertexWithUV(0.0D, (double)var13, 0.0D, (double)var1, (double)var12);
-            var0.addVertexWithUV((double)var6, (double)var13, 0.0D, (double)var3, (double)var12);
-            var0.addVertexWithUV((double)var6, (double)var13, (double)(0.0F - var7), (double)var3, (double)var12);
-            var0.addVertexWithUV(0.0D, (double)var13, (double)(0.0F - var7), (double)var1, (double)var12);
+            var8 = (float)var7 / tileSize;
+            var9 = par4 + (par2 - par4) * var8 - tx;
+            var10 = var6 * var8 + tz;
+            par0Tessellator.addVertexWithUV(0.0D, (double)var10, 0.0D, (double)par1, (double)var9);
+            par0Tessellator.addVertexWithUV((double)var6, (double)var10, 0.0D, (double)par3, (double)var9);
+            par0Tessellator.addVertexWithUV((double)var6, (double)var10, (double)(0.0F - par5), (double)par3, (double)var9);
+            par0Tessellator.addVertexWithUV(0.0D, (double)var10, (double)(0.0F - par5), (double)par1, (double)var9);
         }
 
-        var0.draw();
-        var0.startDrawingQuads();
-        var0.setNormal(0.0F, -1.0F, 0.0F);
+        par0Tessellator.draw();
+        par0Tessellator.startDrawingQuads();
+        par0Tessellator.setNormal(0.0F, -1.0F, 0.0F);
 
-        for (var10 = 0; var10 < var5; ++var10)
+        for (var7 = 0; var7 < tileSize; ++var7)
         {
-            var11 = (float)var10 / ((float)var5 * 1.0F);
-            var12 = var4 + (var2 - var4) * var11 - var8;
-            var13 = var6 * var11;
-            var0.addVertexWithUV((double)var6, (double)var13, 0.0D, (double)var3, (double)var12);
-            var0.addVertexWithUV(0.0D, (double)var13, 0.0D, (double)var1, (double)var12);
-            var0.addVertexWithUV(0.0D, (double)var13, (double)(0.0F - var7), (double)var1, (double)var12);
-            var0.addVertexWithUV((double)var6, (double)var13, (double)(0.0F - var7), (double)var3, (double)var12);
+            var8 = (float)var7 / tileSize;
+            var9 = par4 + (par2 - par4) * var8 - tx;
+            var10 = var6 * var8;
+            par0Tessellator.addVertexWithUV((double)var6, (double)var10, 0.0D, (double)par3, (double)var9);
+            par0Tessellator.addVertexWithUV(0.0D, (double)var10, 0.0D, (double)par1, (double)var9);
+            par0Tessellator.addVertexWithUV(0.0D, (double)var10, (double)(0.0F - par5), (double)par1, (double)var9);
+            par0Tessellator.addVertexWithUV((double)var6, (double)var10, (double)(0.0F - par5), (double)par3, (double)var9);
         }
 
-        var0.draw();
+        par0Tessellator.draw();
     }
 
     public static void bindCorrectTexture(ItemStack item)

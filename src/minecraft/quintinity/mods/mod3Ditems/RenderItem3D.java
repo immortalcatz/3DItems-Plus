@@ -249,7 +249,7 @@ public class RenderItem3D extends RenderItem
                 this.loadTexture(Item.itemsList[var18.itemID].getTextureFile());
 
                 GL11.glColor4f(par5, par6, par7, 1.0F);
-                ItemRenderer.renderItemIn2D(var8, var10, var11, var9, var12, var16);
+                RenderHelper3D.renderItemIn3D(var8, var10, var11, var9, var12, var16);
 
                 if (var18 != null && var18.hasEffect())
                 {
@@ -267,14 +267,14 @@ public class RenderItem3D extends RenderItem
                     float var23 = (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F * 8.0F;
                     GL11.glTranslatef(var23, 0.0F, 0.0F);
                     GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
-                    ItemRenderer.renderItemIn2D(var8, 0.0F, 0.0F, 1.0F, 1.0F, var16);
+                    RenderHelper3D.renderItemIn3D(var8, 0.0F, 0.0F, 1.0F, 1.0F, var16);
                     GL11.glPopMatrix();
                     GL11.glPushMatrix();
                     GL11.glScalef(var22, var22, var22);
                     var23 = (float)(Minecraft.getSystemTime() % 4873L) / 4873.0F * 8.0F;
                     GL11.glTranslatef(-var23, 0.0F, 0.0F);
                     GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
-                    ItemRenderer.renderItemIn2D(var8, 0.0F, 0.0F, 1.0F, 1.0F, 0.0625F);
+                    RenderHelper3D.renderItemIn3D(var8, 0.0F, 0.0F, 1.0F, 1.0F, 0.0625F);
                     GL11.glPopMatrix();
                     GL11.glMatrixMode(GL11.GL_MODELVIEW);
                     GL11.glDisable(GL11.GL_BLEND);
